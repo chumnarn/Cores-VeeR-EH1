@@ -1,0 +1,102 @@
+meta:
+  version: 3
+  flow: Chip
+  substituting_steps:
+    Checker.IllegalOverlap: null
+
+DESIGN_NAME: chip_top
+VERILOG_FILES:
+  - dir::../config/veer_asic/common_defines.vh
+  - dir::../rtl/veer/include/veer_types.sv
+  - dir::../rtl/veer/lib/beh_lib.sv
+  - dir::../rtl/veer/mem.sv
+  - dir::../rtl/veer/pic_ctrl.sv
+  - dir::../rtl/veer/dma_ctrl.sv
+  - dir::../rtl/veer/ifu/ifu_aln_ctl.sv
+  - dir::../rtl/veer/ifu/ifu_compress_ctl.sv
+  - dir::../rtl/veer/ifu/ifu_ifc_ctl.sv
+  - dir::../rtl/veer/ifu/ifu_bp_ctl.sv
+  - dir::../rtl/veer/ifu/ifu_ic_mem.sv
+  - dir::../rtl/veer/ifu/ifu_mem_ctl.sv
+  - dir::../rtl/veer/ifu/ifu_iccm_mem.sv
+  - dir::../rtl/veer/ifu/ifu.sv
+  - dir::../rtl/veer/dec/dec_decode_ctl.sv
+  - dir::../rtl/veer/dec/dec_gpr_ctl.sv
+  - dir::../rtl/veer/dec/dec_ib_ctl.sv
+  - dir::../rtl/veer/dec/dec_tlu_ctl.sv
+  - dir::../rtl/veer/dec/dec_trigger.sv
+  - dir::../rtl/veer/dec/dec.sv
+  - dir::../rtl/veer/exu/exu_alu_ctl.sv
+  - dir::../rtl/veer/exu/exu_mul_ctl.sv
+  - dir::../rtl/veer/exu/exu_div_ctl.sv
+  - dir::../rtl/veer/exu/exu.sv
+  - dir::../rtl/veer/lsu/lsu.sv
+  - dir::../rtl/veer/lsu/lsu_clkdomain.sv
+  - dir::../rtl/veer/lsu/lsu_addrcheck.sv
+  - dir::../rtl/veer/lsu/lsu_lsc_ctl.sv
+  - dir::../rtl/veer/lsu/lsu_stbuf.sv
+  - dir::../rtl/veer/lsu/lsu_bus_buffer.sv
+  - dir::../rtl/veer/lsu/lsu_bus_intf.sv
+  - dir::../rtl/veer/lsu/lsu_ecc.sv
+  - dir::../rtl/veer/lsu/lsu_dccm_mem.sv
+  - dir::../rtl/veer/lsu/lsu_dccm_ctl.sv
+  - dir::../rtl/veer/lsu/lsu_trigger.sv
+  - dir::../rtl/veer/dbg/dbg.sv
+  - dir::../rtl/veer/dmi/dmi_wrapper.v
+  - dir::../rtl/veer/dmi/dmi_jtag_to_core_sync.v
+  - dir::../rtl/veer/dmi/rvjtag_tap.sv
+  - dir::../rtl/veer/lib/mem_lib.sv
+  - dir::../rtl/veer/lib/svci_to_axi4.sv
+  - dir::../rtl/veer/lib/ahb_to_axi4.sv
+  - dir::../rtl/veer/lib/axi4_to_ahb.sv
+  - dir::../rtl/veer/veer.sv
+  - dir::../rtl/veer/veer_wrapper.sv
+  - dir::../rtl/veer_core_harness.sv
+  - dir::../rtl/chip_top.sv
+
+VERILOG_INCLUDE_DIRS:
+  - dir::../config/veer_asic
+  - dir::../rtl/veer/include
+  - dir::../rtl/veer/lib
+  - dir::../rtl/veer/dmi
+VERILOG_DEFINES: [FUNCTIONAL]
+USE_SLANG: true
+SLANG_ARGUMENTS: [--keep-hierarchy]
+
+PNR_SDC_FILE: dir::chip_top.sdc
+SIGNOFF_SDC_FILE: dir::chip_top.sdc
+FALLBACK_SDC: dir::chip_top.sdc
+CLOCK_PORT: clk_PAD
+CLOCK_NET: clk_pad/p2c
+CLOCK_PERIOD: 20.0
+
+VDD_NETS: [VDD]
+GND_NETS: [VSS]
+FP_SIZING: absolute
+DIE_AREA: [0, 0, 3000, 3000]
+CORE_AREA: [365, 365, 2635, 2635]
+PL_TARGET_DENSITY_PCT: 42
+GRT_ALLOW_CONGESTION: true
+
+PAD_SOUTH: [clk_pad, rst_n_pad, "inputs\\[0\\].input_pad", "inputs\\[1\\].input_pad", "inputs\\[2\\].input_pad", "inputs\\[3\\].input_pad"]
+PAD_WEST: ["inputs\\[4\\].input_pad", "inputs\\[5\\].input_pad", "inputs\\[6\\].input_pad", "inputs\\[7\\].input_pad", vdd_pad, vss_pad]
+PAD_NORTH: ["outputs\\[7\\].output_pad", "outputs\\[6\\].output_pad", "outputs\\[5\\].output_pad", "outputs\\[4\\].output_pad", "outputs\\[3\\].output_pad", "outputs\\[2\\].output_pad", "outputs\\[1\\].output_pad", "outputs\\[0\\].output_pad"]
+PAD_EAST: [iovdd_pad, iovss_pad]
+
+PRIMARY_GDSII_STREAMOUT_TOOL: klayout
+PAD_BONDPAD_NAME: bondpad_70x70_novias
+EXTRA_GDS: [dir::../ip/bondpad_70x70_novias/gds/bondpad_70x70_novias.gds]
+EXTRA_LEFS: [dir::../ip/bondpad_70x70_novias/lef/bondpad_70x70_novias.lef]
+IGNORE_DISCONNECTED_MODULES: [bondpad_70x70_novias]
+
+PDN_CORE_RING: true
+PDN_CORE_RING_CONNECT_TO_PADS: true
+PDN_ENABLE_PINS: false
+PDN_CORE_RING_VWIDTH: 15
+PDN_CORE_RING_HWIDTH: 15
+PDN_CORE_RING_VSPACING: 5
+PDN_CORE_RING_HSPACING: 5
+PDN_CFG: dir::pdn_cfg.tcl
+MAGIC_EXT_UNIQUE: notopports
+
+MAGIC_GDS_FLATGLOB: ["lvsres_*", "VIA_M1_*", "VIA_M2_*", "*_CELL_CORNER", "RSC_*", "*_CELL_SUB"]
